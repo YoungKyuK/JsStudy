@@ -46,25 +46,54 @@
 //     console.log("작업 실패 :" , err)})
 
 
-function taskA(a,b ,cb){
-    setTimeout(() => {
+function taskA(a,b){
+    return new Promise((resolve, reject) => {
+         setTimeout(() => {
         const res = a+b;
-        cb(res);
+        resolve(res);
     }, 3000);
+    })
 }
 
-function taskB(a,cb){
-    setTimeout(() => {
+function taskB(a){
+    return new Promise( (resolve, reject) => {
+         setTimeout(() => {
         const res = a * 2;
-        cb(res);
+        resolve(res);
     }, 1000);
+    });
 }
 
-function taskC(a,cb){
-    setTimeout(() => {
+function taskC(a){
+    return new Promise( (resolve, reject) => {
+        setTimeout(() => {
         const res = a * -1;
-        cb(res);
+        resolve(res);
     }, 2000);
+    });
 }
 
-taskA(3,4)
+// promis 활용 ( then 메서드를 계속 이어붙임 : then 체이닝 )
+taskA(5,1).then((a_res)=> {
+    console.log("A result :" , a_res);
+    return taskB(a_res);
+}).then((b_res)=>{
+    console.log("B result :" , b_res);
+    return taskC(b_res);
+}).then((c_res)=> {
+    console.log("C result :", c_res);
+});
+
+
+// 콜백지옥
+// taskA(3,4,(a_res) => {
+//     console.log("taskA :" , a_res);
+//         taskB(a_res,(b_res) => {
+//         console.log("taskB : ", b_res);
+//             taskC( b_res, (c_res)=> {
+//             console.log("taskC : ", c_res);
+//         });
+//     });
+// });
+    
+
