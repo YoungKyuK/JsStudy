@@ -19,7 +19,8 @@ function App() {
   }
 
   return (
-    // <div className="App"> // 최상위 컴포넌트가 없어도 react.fragment로 대체 할 수 있다. (빈칸으로 냅둬도 인식 가능) 
+    // <div className="App"> // 최상위 컴포넌트가 없어도 react.fragment로 
+    // 대체 할 수 있다. (빈칸으로 냅둬도 인식 가능) 
     // 부모처럼 감싸지지 않고 따로따로 분리할 때 사용
     // {number}는 : {number %2 === 0 ? "짝수" : "홀수"}</b> 
     /* 조건부 렌더링!! */
