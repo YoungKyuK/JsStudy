@@ -1,8 +1,11 @@
 
-import { useState } from "react";
+import { useRef , useState } from "react";
 
 const DiaryEditor = () => {
 
+            // HTML 접근가능
+    const authorInput = useRef();
+    const contentInput = useRef();
 
     const [state, setState] = useState({
         author  : "",
@@ -29,7 +32,19 @@ const DiaryEditor = () => {
     }
 
     const handleSubmit = () => {
-        console.log(state);
+        if(state.author.length < 1 ){
+            // focus
+            authorInput.current.focus();
+            return ;
+        }
+
+        if(state.content.length < 5 ){
+            // focus
+            contentInput.current.focus();
+            return ; 
+        }
+
+        // console.log(state);
         alert("저장 성공");
     } 
 
@@ -37,7 +52,7 @@ const DiaryEditor = () => {
     <div className="DiaryEditor">
         <h2>오늘의 일기</h2>
         <div>
-            <input 
+            <input ref={authorInput}
             name= "author"  // 이름까지 출력가능하다.
             value={state.author} 
             // input의 값이 바뀌었을 때 onChange 안에 있는 props(e) 콜백함수를 수행한다.
@@ -54,7 +69,9 @@ const DiaryEditor = () => {
             onChange={handleChangeState}/>
         </div>
         <div>
-            <textarea name ="content"
+            <textarea 
+            ref = {contentInput}
+            name ="content"
             value ={state.content}
             onChange={handleChangeState}/>
         </div>
