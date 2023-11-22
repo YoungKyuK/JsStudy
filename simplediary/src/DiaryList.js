@@ -1,3 +1,4 @@
+import DiaryItem from "./DiaryItem";
 
 const DiaryList = ( {diaryList} ) => {
     console.log(diaryList);
@@ -8,10 +9,7 @@ const DiaryList = ( {diaryList} ) => {
         <div>
           {diaryList.map((it) => (   // diaryList의 객체들이 it으로 변환되어 들어오는 것이다.
             <div key={it.id}>
-                <div>작성자 : {it.author}</div>
-                <div>본문 : {it.content}</div>
-                <div>감정 : {it.emotion}</div>
-                <div>작성 시간(ms) : {it.create_date}</div>
+              < DiaryItem key={it.id} {...it}/>
             </div>
           ))}   
         </div>

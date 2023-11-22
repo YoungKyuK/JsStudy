@@ -9,21 +9,21 @@ const dummyList = [
     author : "김영규1",
     content : "Hello1",
     emotion : 5,
-    create_date : new Date().getTime()
+    created_date : new Date().getTime()
   },
   {
     id : 2,
     author : "김영규2",
     content : "Hello2",
     emotion : 3,
-    create_date : new Date().getTime()
+    created_date : new Date().getTime()
   },
   {
     id : 3,
     author : "김영규3",
     content : "Hello3",
     emotion : 1,
-    create_date : new Date().getTime()
+    created_date : new Date().getTime()
   }
 ];
 
