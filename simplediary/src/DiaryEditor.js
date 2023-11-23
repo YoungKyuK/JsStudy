@@ -1,7 +1,7 @@
 
 import { useRef , useState } from "react";
 
-const DiaryEditor = () => {
+const DiaryEditor = ( {onCreate} ) => {
 
             // HTML 접근가능
     const authorInput = useRef();
@@ -45,8 +45,14 @@ const DiaryEditor = () => {
         }
 
         // console.log(state);
+        onCreate(state.author, state.content, state.emotion);
         alert("저장 성공");
-    } 
+        setState({
+            author : "",
+            content : "", 
+            emotion : 1,
+        });
+    }; 
 
     return (
     <div className="DiaryEditor">
