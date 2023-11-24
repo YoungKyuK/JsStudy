@@ -93,7 +93,6 @@ const DiaryEditor = ( {onCreate} ) => {
                 <option value={4}>4</option>
                 <option value={5}>5</option>
             </select> 
-            
         </div>
 
         <div>
