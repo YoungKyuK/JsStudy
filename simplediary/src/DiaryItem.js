@@ -50,6 +50,7 @@ const DiaryItem = ({
             <span className="date">{new Date(created_date).toLocaleString()}
             </span>
         </div>
+        
         <div className="content">
             {isEdit ? (<>
                 <textarea 
