@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+#React useState
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+응용프로그램에게 반응성을 추가하는 것이 state입니다.
 
-## Available Scripts
+state가 없다면, 우리 UI는 절대 변하지 않을 것입니다.
 
-In the project directory, you can run:
+state를 사용하려면 import React, {useState} from "react"가 필요합니다.
 
-### `npm start`
+# 1. const [count,setCount] = useState(0) 처음보는 식이 있습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+count([0])은 상태의 값으로 사용하는 변수이며, setCount([1])는 [0]의 상태를 변화시키는 상태변화 함수입니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+그리고 useState()는 [0]의 초기값을 설정하는 함수입니다.
 
-### `npm test`
+이런 식은 처음보는 식인데, 처음에는 누구에게나 생소하며 자주보고 자주 쓰다보면 익숙해진다고 합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#2. onIncrease와 onDecrease를 화살표 함수를 이용하여 만들어줍니다. 이때, 1에서 선언한 setCount를 이용하여 count상태값을 변화시킵니다.
 
-### `npm run build`
+#3. <button onClick={onIncrease}> 이처럼 jsx에서는 onClick="onIncrease"따옴표를 이용하지 않고 중괄호를 이용합니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        import React, { useState } from "react";
+        
+          const Counter = () => {
+            const [count, setCount] = useState(0);
+            // [0]상태의 값으로 사용 [1] ; [0]의 상태를 변화시키는 상태변화 함수
+            // useState() ; [0]의 초기값 설정
+        
+          const onIncrease = () => {
+            setCount(count + 1);
+          };
+          const onDecrease = () => {
+            setCount(count - 1);
+          };
+        
+          return (
+            <div>
+              <h2>{count}</h2>
+              <button onClick={onIncrease}>+</button>
+              <button onClick={onDecrease}>-</button>
+            </div>
+          );
+        };
+        
+        export default Counter;
+ 
+        setInput((prevState) => {
+          return { ...prevState, [e.target.name]: e.target.value };
+        });
+   
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#상태 업데이트가 이전 상태에 의존하고 있다면 이렇게 써야 합니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+state변경함수는 인수로 이전 state값을 반환합니다.
