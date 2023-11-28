@@ -53,7 +53,7 @@ increment();
 - 비동기 코드를 마치 동기 코드처럼 보이게 작성할 수 있음
 
 함수명 앞에 async를 붙히면 됨 ex) async function() { return "id" }
-
+ 
 
 #async와 await를 활용한 함수
 ex)
