@@ -11,42 +11,49 @@ Promise란? 비동기 처리에 활용되는 객체
 then()을 활용해 결과 값을 받을 수 있음
 
 #호출 성공인 resolve와 then
+
 ex)
-function getData(){
+
+    function getData(){
     return new Promise( (resolve, reject) => {
       let data = 10;
       resolve(data);
-    })
-  }
-getData().then((resolvedData) => console.log(resolvedData));
+    });
+    }
+    getData().then((resolvedData) => console.log(resolvedData));
 
 #호출 실패인 reject와 catch
+
 ex)
-function getData() {
-  return new Promise((resolve, reject) => {
-    reject(new Error("This is rejected!"));
-  });
-}
-getData().catch((err) => console.log(err));
+
+        function getData() {
+          return new Promise((resolve, reject) => {
+            reject(new Error("This is rejected!"));
+          });
+        }
+        getData().catch((err) => console.log(err));
+
 
 #Promise의 객체 연결
-ex)
-function increment() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(1);
-    }, 2000);
-  })
-    .then((res) => {
-      console.log(res);
-      return ++res;
-    })
-    .then((res) => {
-      console.log(res);
-      return ++res;
-    });
-}
-increment();
+
+ ex)
+ 
+        function increment() {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(1);
+            }, 2000);
+          })
+            .then((res) => {
+              console.log(res);
+              return ++res;
+            })
+            .then((res) => {
+              console.log(res);
+              return ++res;
+            });
+        }
+        increment();
 
 #Async & Await : 비동기 처리를 할 때 사용하는 Promise의 단점을 보완하기 위해 ES7에서 추가된 키워드
 
@@ -54,24 +61,25 @@ increment();
 
 함수명 앞에 async를 붙히면 됨 ex) async function() { return "id" }
  
-
 #async와 await를 활용한 함수
-ex)
-function delay(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
 
-async function helloAsync1() {
-  await delay(3000);
-  return "hello async";
-}
-async function main() {
-  const res = await helloAsync1();
-  console.log(res);
-}
-main();
+        ex)
+        
+        function delay(ms) {
+          return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+          });
+        }
+        
+        async function helloAsync1() {
+          await delay(3000);
+          return "hello async";
+        }
+        async function main() {
+          const res = await helloAsync1();
+          console.log(res);
+        }
+        main();
 
 - await이 붙은 함수는 동기적으로 처리함 ; 해당 함수가 실행되기 전까지 아래 함수를 실행하지 않음
 
