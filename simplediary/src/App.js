@@ -1,8 +1,7 @@
-import {useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
-// import Lifecycle from './Lifecycle';
 
 // https://jsonplaceholder.typicode.com/comments  : 
 
@@ -40,7 +39,7 @@ function App() {
 
   const getData = async() => {
     const res = await fetch('https://jsonplaceholder.typicode.com/comments').then((res)=>res.json());
-    console.log(res);
+    // console.log(res);
 
     const initData = res.slice(0,20).map( (it) => {
       return {
@@ -58,7 +57,9 @@ function App() {
     getData();
   },[])
 
-  const onCreate = (author, content, emotion ) => {
+  // 일기를 삭제하거나, 수정할때도 계속 리렌더링이 되서 생성할 때만 렌더링 될 수 있도록 useCallback 사용
+  const onCreate = useCallback(
+    (author, content, emotion ) => {
     const created_date = new Date().getTime();
     const newItem = {
       author,
@@ -68,27 +69,45 @@ function App() {
       id : dataId.current // 0
     }
     dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+    // 함수형업데이트(data) : setData는 원래 상태변화함수에 값을 전달하고, 그 값이 새로운 stats의 값으로 바뀐다. 함수를 전달해도된다.
+    setData( (data) => [newItem, ...data]);
+  },
 
-  const onRemove = (targetId) => {
-    console.log(`${targetId}가 삭제되었습니다.`);
-    const newDiaryList = data.filter((it) =>it.id !== targetId);
+  []
+  );
+
+  const onRemove = useCallback((targetId) => {
+    // console.log(`${targetId}가 삭제되었습니다.`);
     // console.log(newDiaryList);
-    setData(newDiaryList);
-  }
+    setData( (data) => data.filter((it) =>it.id !== targetId));
+  },[]);
 
-  const onEdit = (targetId, newContent ) => {
-    setData(
-      data.map((it)=>it.id === targetId ? {...it, content:newContent} : it
-      )
+  const onEdit = useCallback((targetId, newContent ) => {
+    setData( (data) => 
+      data.map((it)=>it.id === targetId ? {...it, content:newContent} : it)
     );
-  };
+  },[]);
+
+  const getDiaryAnalysis = useMemo(
+    () =>{
+    // console.log("일기 분석 시작!");
+    const goodCount = data.filter((it) =>it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length ) * 100;
+    return {goodCount, badCount, goodRatio};
+  }, [data.length]
+  );
+
+                          
+  const {goodCount, badCount, goodRatio} = getDiaryAnalysis;
 
   return (
     <div className="App">
-      {/* <Lifecycle /> */}
       <DiaryEditor onCreate={onCreate} />
+      <div>전체 일기 : {data.length}</div>
+      <div>기분 좋은 일기 개수 : {goodCount}</div>
+      <div>기분 나쁜 일기 개수: {badCount}</div>
+      <div>기분 좋은 일기 비율 : {goodRatio}</div>
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
     </div>
   );
