@@ -35,13 +35,13 @@ const DiaryEditor = ( {onCreate} ) => {
         if(state.author.length < 1 ){
             // focus
             authorInput.current.focus();
-            return ;
+            return;
         }
 
         if(state.content.length < 5 ){
             // focus
             contentInput.current.focus();
-            return ; 
+            return; 
         }
 
         // console.log(state);
@@ -72,14 +72,14 @@ const DiaryEditor = ( {onCreate} ) => {
             //         author : e.target.value,
                     
             //     });
-            onChange={handleChangeState}/>
+            onChange={handleChangeState} />
         </div>
         <div>
             <textarea 
             ref = {contentInput}
             name ="content"
             value ={state.content}
-            onChange={handleChangeState}/>
+            onChange={handleChangeState} />
         </div>
         <div>
             <span>오늘의 감정점수 : </span>

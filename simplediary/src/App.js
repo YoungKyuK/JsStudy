@@ -59,7 +59,7 @@ function App() {
 
   // 일기를 삭제하거나, 수정할때도 계속 리렌더링이 되서 생성할 때만 렌더링 될 수 있도록 useCallback 사용
   const onCreate = useCallback(
-    (author, content, emotion ) => {
+    ( author, content, emotion ) => {
     const created_date = new Date().getTime();
     const newItem = {
       author,
@@ -88,7 +88,7 @@ function App() {
     );
   },[]);
 
-  const getDiaryAnalysis = useMemo(
+  const getDiaryAnalysis = useMemo (
     () =>{
     // console.log("일기 분석 시작!");
     const goodCount = data.filter((it) =>it.emotion >= 3).length;
