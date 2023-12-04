@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
@@ -30,9 +30,45 @@ import DiaryList from './DiaryList';
 //   }
 // ];
 
-function App() {
+//2개의 parameter를 받는데 첫번째로는 상태변화가 일어나기 직전의 state,
+// 두번째는 어떤 상태변화를 일으켜야 하는지의 정보가 담겨있는 action 객체
+// reduce가 return하는 값은 새로운 상태의 값이다.
 
-  const [data, setData] = useState([]);
+// action 객체에서 data 프로퍼티를 꺼내서 리턴해주면 새로운 state가 된다.
+const reducer = (state, action) => {
+  switch(action.type){
+    case 'INIT': {
+      return action.data
+    }
+    case 'CREATE': {
+      const created_date = new Date().getTime();
+      const newItem = {
+        ...action.data,
+        created_date
+      }
+      return [newItem, ...state];
+    }
+    case 'REMOVE': {
+      return state.filter((it)=>it.id !== action.targetId);
+    }
+    case 'EDIT': {
+      return state.map((it)=> it.id === action.targetId ? {...it, content:action.newContent } : it
+      );
+
+    }
+    default :
+    return state;
+  }
+}
+
+const App = () => {
+
+  // hook이 아닌 reducer로 작업할꺼라 주석처리
+  // const [data, setData] = useState([]);
+
+  // 복잡한 상태변화 로직을 컴포넌트 밖으로 분리하려고 reducer를 사용한다.
+  // dispatch를 호출하면 reduce가 실행되고 그 reduce가 리턴하는 값이 data의 값이 된다.
+  const [data, dispatch] = useReducer(reducer, []);
 
   // id는 고유값이라 useRef로 만든다.
   const dataId = useRef(0);
@@ -49,8 +85,9 @@ function App() {
         created_date : new Date().getTime(),
         id : dataId.current++
       }
-    })
-    setData(initData);
+    });
+
+    dispatch({type:"INIT", data:initData});
   };
 
   useEffect( () => {
@@ -60,17 +97,20 @@ function App() {
   // 일기를 삭제하거나, 수정할때도 계속 리렌더링이 되서 생성할 때만 렌더링 될 수 있도록 useCallback 사용
   const onCreate = useCallback(
     ( author, content, emotion ) => {
-    const created_date = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      emotion,
-      created_date,
-      id : dataId.current // 0
-    }
+
+      dispatch({type:'CREATE', data:{author, content, emotion, id:dataId.current}})
+
+    // const created_date = new Date().getTime();
+    // const newItem = {
+    //   author,
+    //   content,
+    //   emotion,
+    //   created_date,
+    //   id : dataId.current // 0
+    // }
     dataId.current += 1;
     // 함수형업데이트(data) : setData는 원래 상태변화함수에 값을 전달하고, 그 값이 새로운 stats의 값으로 바뀐다. 함수를 전달해도된다.
-    setData( (data) => [newItem, ...data]);
+    // setData( (data) => [newItem, ...data]);
   },
 
   []
@@ -79,14 +119,18 @@ function App() {
   const onRemove = useCallback((targetId) => {
     // console.log(`${targetId}가 삭제되었습니다.`);
     // console.log(newDiaryList);
-    setData( (data) => data.filter((it) =>it.id !== targetId));
-  },[]);
+
+    dispatch({type:"REMOVE",  targetId});
+  //   setData( (data) => data.filter((it) =>it.id !== targetId));
+   },[]);
 
   const onEdit = useCallback((targetId, newContent ) => {
-    setData( (data) => 
-      data.map((it)=>it.id === targetId ? {...it, content:newContent} : it)
-    );
-  },[]);
+
+    dispatch({type:"EDIT", targetId, newContent})
+  //   setData( (data) => 
+  //     data.map((it)=>it.id === targetId ? {...it, content:newContent} : it)
+  //   );
+   },[]);
 
   const getDiaryAnalysis = useMemo (
     () =>{
