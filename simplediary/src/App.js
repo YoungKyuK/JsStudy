@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useReducer, useRef} from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
@@ -54,12 +54,15 @@ const reducer = (state, action) => {
     case 'EDIT': {
       return state.map((it)=> it.id === action.targetId ? {...it, content:action.newContent } : it
       );
-
     }
     default :
     return state;
   }
 }
+
+
+// export default는 파일 하나당 한개밖에 쓸 수 없음, export는 여러가지 사용 가능.
+export const DiaryStateContext = React.createContext();
 
 const App = () => {
 
@@ -89,7 +92,6 @@ const App = () => {
 
     dispatch({type:"INIT", data:initData});
   };
-
   useEffect( () => {
     getData();
   },[])
@@ -97,9 +99,7 @@ const App = () => {
   // 일기를 삭제하거나, 수정할때도 계속 리렌더링이 되서 생성할 때만 렌더링 될 수 있도록 useCallback 사용
   const onCreate = useCallback(
     ( author, content, emotion ) => {
-
       dispatch({type:'CREATE', data:{author, content, emotion, id:dataId.current}})
-
     // const created_date = new Date().getTime();
     // const newItem = {
     //   author,
@@ -111,9 +111,7 @@ const App = () => {
     dataId.current += 1;
     // 함수형업데이트(data) : setData는 원래 상태변화함수에 값을 전달하고, 그 값이 새로운 stats의 값으로 바뀐다. 함수를 전달해도된다.
     // setData( (data) => [newItem, ...data]);
-  },
-
-  []
+  }, []
   );
 
   const onRemove = useCallback((targetId) => {
@@ -146,6 +144,7 @@ const App = () => {
   const {goodCount, badCount, goodRatio} = getDiaryAnalysis;
 
   return (
+    <DiaryStateContext.Provider value={data}>
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
@@ -154,6 +153,7 @@ const App = () => {
       <div>기분 좋은 일기 비율 : {goodRatio}</div>
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
     </div>
+    </DiaryStateContext.Provider>
   );
 }
 
