@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import DiaryItem from "./DiaryItem";
+import { DiaryStateContext } from "./App";
 
-const DiaryList = ( { onEdit, onRemove, diaryList} ) => {
+const DiaryList = ( { onEdit, onRemove } ) => {
+
+  // Context로부터 값을 꺼내온다.
+  const diaryList = useContext(DiaryStateContext)
     return (
     <div className="DiaryList">
         <h2>일기 리스트</h2>

@@ -61,7 +61,7 @@ const reducer = (state, action) => {
 }
 
 
-// export default는 파일 하나당 한개밖에 쓸 수 없음, export는 여러가지 사용 가능.
+// export default는 파일 하나당 한개밖에 쓸 수 없음, default가 없는거는 여러가지 사용 가능.
 export const DiaryStateContext = React.createContext();
 
 const App = () => {
@@ -151,7 +151,7 @@ const App = () => {
       <div>기분 좋은 일기 개수 : {goodCount}</div>
       <div>기분 나쁜 일기 개수: {badCount}</div>
       <div>기분 좋은 일기 비율 : {goodRatio}</div>
-      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
+      <DiaryList onEdit={onEdit} onRemove={onRemove} />
     </div>
     </DiaryStateContext.Provider>
   );
