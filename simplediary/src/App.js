@@ -64,6 +64,8 @@ const reducer = (state, action) => {
 // export default는 파일 하나당 한개밖에 쓸 수 없음, default가 없는거는 여러가지 사용 가능.
 export const DiaryStateContext = React.createContext();
 
+export const DiaryDispatchContext = React.createContext();
+
 const App = () => {
 
   // hook이 아닌 reducer로 작업할꺼라 주석처리
@@ -130,6 +132,11 @@ const App = () => {
   //   );
    },[]);
 
+   // 뎁스가 재생성 될일 없게 빈배열로 해준다.
+   const memoizedDispatches = useMemo( ()=> {
+     return {onCreate, onRemove, onEdit }
+   }, []);
+
   const getDiaryAnalysis = useMemo (
     () =>{
     // console.log("일기 분석 시작!");
@@ -143,16 +150,19 @@ const App = () => {
                           
   const {goodCount, badCount, goodRatio} = getDiaryAnalysis;
 
+  //Provider 공급자 compoment로 mapping을 해준다.
   return (
     <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={memoizedDispatches}> 
     <div className="App">
-      <DiaryEditor onCreate={onCreate} />
+      <DiaryEditor />
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>
       <div>기분 나쁜 일기 개수: {badCount}</div>
       <div>기분 좋은 일기 비율 : {goodRatio}</div>
-      <DiaryList onEdit={onEdit} onRemove={onRemove} />
+      <DiaryList />
     </div>
+      </DiaryDispatchContext.Provider>
     </DiaryStateContext.Provider>
   );
 }
