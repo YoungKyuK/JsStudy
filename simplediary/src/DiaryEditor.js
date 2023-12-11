@@ -22,6 +22,7 @@ const DiaryEditor = () => {
 
 
     // 똑같은 성질의 state가 2개이므로 하나로 합칠 수도 있다.
+    //
     const handleChangeState = (e) => {
         console.log(e.target.name);
         console.log(e.target.value);
