@@ -77,21 +77,21 @@ html 페이지에서는 링크를 넣어줄 때 a 태그를 사용하지만,
 Link 컴포넌트 역시 a 태그를 사용하긴 하지만, 페이지를 새로 불러오는 것을 막고
 History API를 통해 브라우저 주소의 경로만 바꾸는 기능이 내장되어 있습니다.
 
-    import { Link } from "react-router-dom";
-    
-    const RouteTest = () => {
-        return (
-    <>
-        <Link to={'/'}>Home</Link>
-        <br />
-        <Link to={'/diary'}>DIARY</Link>
-        <br />
-        <Link to={'/new'}>NEW</Link>
-        <br />
-        <Link to={'/Edit'}>EDIT</Link>
-    </>
-    );
-    };
-    
-    export default RouteTest;
+      import { Link } from "react-router-dom";
+
+      const RouteTest = () => {
+          return (
+              <>
+                  <Link to={'/'}>Home</Link>
+                  <br />
+                  <Link to={'/diary'}>DIARY</Link>
+                  <br />
+                  <Link to={'/new'}>NEW</Link>
+                  <br />
+                  <Link to={'/Edit'}>EDIT</Link>
+              </>
+          );
+      };
+      
+      export default RouteTest;
 
