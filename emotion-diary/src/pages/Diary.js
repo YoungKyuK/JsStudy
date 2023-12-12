@@ -1,5 +1,11 @@
+import { useParams } from "react-router-dom";
 
 const Diary = () => {
+
+    // 사용자정의 hooks
+    const {id} = useParams();
+    console.log(id);
+
     return (
     <div>
         <h1>Diary</h1>
