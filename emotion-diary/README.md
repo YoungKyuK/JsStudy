@@ -12,9 +12,9 @@ React Router 이 라이브러리는 리액트의 라우팅 관련 라이브러�
 
 1. 설치
 npm
-      #npm i react-router-dom
+      <br /> npm install react-router-dom@6 : 6 버전 중 가장 최신버전 설치
 yarn
-      #yarn add react-router-dom
+      yarn add react-router-dom
 
 2. 적용해보기
 
