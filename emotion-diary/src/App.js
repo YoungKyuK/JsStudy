@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useRef } from 'react';
 
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -52,8 +52,25 @@ function App() {
   // 상태변화처리함수인 reducer는 컴포넌트 밖으로 분리하여 직접 만들어줘야한다. (그래서 ,[]를 밖으로 분리)
   const [data, dispatch] = useReducer(reducer, []);
 
+  const dataId = useRef(0);
   // CREATE
+  const onCreate = ( date, content, emotion )=> {
+    dispatch({ type:"CREATE", data:{
+      id : dataId.current,
+      date: new Date(date).getTime(),
+      content,
+      emotion
+    }})
+    dataId.current += 1;
+  }
+
   // REMOVE
+  const onRemove = () => {
+    dispatch({ type:"REMOVE", data:{
+      id : dataId.current
+    }})
+  }
+
   // EDIT
 
 
