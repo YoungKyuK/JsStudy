@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 
-import Home from './pages/Home';
+import Homes from './pages/Homes';
 import New from './pages/New';
 import Edit from './pages/Edit';
 import Diary from './pages/Diary';
@@ -44,6 +44,38 @@ const reducer = ( state, action ) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
+const dummyDate = [
+  {
+    id: 1,
+    emotion: 1,
+    content: "오늘의 일기 1번",
+    date: 1702946599997,
+  },
+  {
+    id: 2,
+    emotion: 5,
+    content: "오늘의 일기 2번",
+    date: 1702946599998,
+  },
+  {
+    id: 3,
+    emotion: 3,
+    content: "오늘의 일기 3번",
+    date: 1702946599999,
+  },
+  {
+    id: 4,
+    emotion: 2,
+    content: "오늘의 일기 4번",
+    date: 1702946600000,
+  },
+  {
+    id: 5,
+    emotion: 5,
+    content: "오늘의 일기 5번",
+    date: 1702946600001,
+  }
+]
 
 function App() {
   
@@ -52,7 +84,7 @@ function App() {
   // useReducer(reducer, []) 두개의 인자를 꼭 전달해야하는데,
   // 첫번째 인자는 reducer(상태변화 처리함수), 두번째 인자는 state의 초기값
   // 상태변화처리함수인 reducer는 컴포넌트 밖으로 분리하여 직접 만들어줘야한다. (그래서 ,[]를 밖으로 분리)
-  const [data, dispatch] = useReducer(reducer, []);
+  const [data, dispatch] = useReducer(reducer, dummyDate);
 
   // 일기 id로 사용
   const dataId = useRef(0);
@@ -95,7 +127,7 @@ function App() {
         <BrowserRouter>
           <div className="App">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Homes />} />
               <Route path='/new' element={<New/>} />
               <Route path='/edit' element={<Edit/>} />
               <Route path='/diary/:id' element={<Diary/>} />
