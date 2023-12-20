@@ -53,7 +53,7 @@ const dummyDate = [
   },
   {
     id: 2,
-    emotion: 5,
+    emotion: 2,
     content: "오늘의 일기 2번",
     date: 1702946599998,
   },
@@ -65,7 +65,7 @@ const dummyDate = [
   },
   {
     id: 4,
-    emotion: 2,
+    emotion: 4,
     content: "오늘의 일기 4번",
     date: 1702946600000,
   },
