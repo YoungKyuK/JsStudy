@@ -3,6 +3,36 @@ import { useState } from "react";
 
 import MyHeader from "./MyHeader";
 import MyButton from "./MyButton";
+import EmotionItem from "./EmotionItem";
+
+const emotionList = [
+    {
+        emotion_id : 1,
+        emotion_img : process.env.PUBLIC_URL + '/assets/emotion1.png',
+        emotion_descript : '완전 좋음'
+    },
+    {
+        emotion_id : 2,
+        emotion_img : process.env.PUBLIC_URL + '/assets/emotion2.png',
+        emotion_descript : '좋음'
+    },
+    {
+        emotion_id : 3,
+        emotion_img : process.env.PUBLIC_URL + '/assets/emotion3.png',
+        emotion_descript : '그럭저럭'
+    },
+    {
+        emotion_id : 4,
+        emotion_img : process.env.PUBLIC_URL + '/assets/emotion4.png',
+        emotion_descript : '나쁨'
+    },
+    {
+        emotion_id : 5,
+        emotion_img : process.env.PUBLIC_URL + '/assets/emotion5.png',
+        emotion_descript : '끔찍함'
+    }
+
+]
 
 // toISOString() 자바스크립트 메서드이다 0~9까지가 연월일까지 표시가 되므로 자른다.
 const getStringDate = ( date ) => {
@@ -17,7 +47,7 @@ const DiaryEditor = () => {
     return (
     <div className="DiaryEditor">
        <MyHeader headText={'새 일기쓰기'} 
-       leftChild={<MyButton text={'< 뒤로가기'} onClick={() => navigate(-1) }/>}/>
+       leftChild={<MyButton text={'< 뒤로가기'} onClick={ () => navigate(-1) }/>}/>
 
         <div>
             <section>
@@ -29,6 +59,14 @@ const DiaryEditor = () => {
                     onChange={(e) => setDate(e.target.value)}
                     type="date" />
                 </div>
+            </section>
+
+            <section>
+                <h4>오늘의 감정</h4>
+                <div className="input_box emotion_list_wrapper">
+                    {emotionList.map((it)=>(
+                        <EmotionItem key={it.emotion_id} {...it} />
+                    ))}</div>
             </section>
         </div>
     </div>
