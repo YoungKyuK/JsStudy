@@ -1,32 +1,39 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { DiaryStateContext } from "../App";
+import DiaryEditor from "../components/DiaryEditor";
 
 const Edit = () => {
 
+    const [originData, setOriginData] = useState();
     // useNavigate : 페이지를 이동시킬 수 있는 함수를 반환
     const navigate = useNavigate();
+    const { id } = useParams();
 
-    // 비구조화 할당 : 배열이나 객체의 속성 혹은 값을 해체하여 그 값을 변수에 각각 담아 사용하는 자바스크립트 표현식입니다.
-    // 예시 코드 : const [변수명1, 변수명2, 변수명3] = [값1, 값2, 값3];
-    const [searchParams, setSearchParams] = useSearchParams();
+    const diaryList = useContext(DiaryStateContext);
+    // console.log(diaryList);
+    // console.log(id);
 
-    const id = searchParams.get('id');
-    console.log("id :", id);
-    const mode = searchParams.get('mode');
-    console.log("mode :", mode );
+    // id나 diaryList 변할때만 꺼내와서 변경해줘야 하기때문에 useEffect을 사용해서 변경해준다.
+    useEffect(() => {
+      if( diaryList.length >=1 ){
+        const targetDiary = diaryList.find(
+          (it) =>parseInt(it.id) === parseInt(id)
+        );
+        //console.log(targetDiary);
+
+        // 없는 일기 데이터는 홈으로 보내준다.
+        if(targetDiary){
+          setOriginData(targetDiary);
+        }else{
+          navigate('/', {replace : true})
+        }
+      }
+    }, [id, diaryList])
 
     return (
     <div>
-        <h1>Edit</h1>
-        <p>이곳은 일기 수정 페이지 입니다.</p>
-        <button onClick={()=>setSearchParams({who:'winterload'})}>QS 바꾸기</button>
-
-        <button onClick={()=>{
-            navigate("/home");
-        }}>HOME으로 가기</button>
-
-        <button onClick={()=>{
-            navigate(-1);
-        }}>뒤로가기</button>
+      {originData && <DiaryEditor isEdit={true} originData={originData} />}
     </div>
     );
  };
