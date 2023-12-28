@@ -10,7 +10,12 @@ import New from './pages/New';
 import Edit from './pages/Edit';
 import Diary from './pages/Diary';
 
-
+// reducer : 현재 상태와 액션 객체를 Parameter로 받아와서 새로운 상태를 반환해주는 함수이다.
+// ex) function reducer(state, action) {
+// }
+//reducer 사용법
+//const [state, dispatch] = useReducer(reducer, initialState);
+//여기서 state 는 앞으로 컴포넌트에서 사용 할 수 있는 상태를 가르키게 되고, dispatch 는 액션을 발생시키는 함수라고 이해하면된다.
 const reducer = ( state, action ) => {
   let newState = [];
   switch(action.type){
@@ -87,7 +92,8 @@ function App() {
   const [data, dispatch] = useReducer(reducer, dummyDate);
 
   // 일기 id로 사용
-  const dataId = useRef(0);
+  // dummy data의 id가 1~5까지 있으므로 6번부터 시작해야 한다.
+  const dataId = useRef(6);
   // CREATE
   const onCreate = ( date, content, emotion )=> {
     dispatch({ type:"CREATE", data:{

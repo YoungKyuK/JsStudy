@@ -31,7 +31,7 @@ const ControlMenu = ( { value, onChange, optionList }) => {
 
 const DiaryLists = ({diaryLists}) => {
     const navigate = useNavigate();
-    const [ sortType, setSortType ] = useState("lastest");
+    const [ sortType, setSortType ] = useState("latest");
     const [filter, setFilter] = useState("all");
 
     const getProcesseDiaryList = () => {
@@ -46,7 +46,7 @@ const DiaryLists = ({diaryLists}) => {
 
         // 비교함수
         const compare = ( a,b ) => {
-            if(sortType === "lastest"){
+            if(sortType === "latest"){
                 // 문자열이 들어올 수 있기때문에 parseInt를 써준다.
                 return parseInt(b.date) - parseInt (a.date);
             } else {

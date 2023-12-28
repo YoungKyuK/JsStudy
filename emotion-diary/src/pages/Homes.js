@@ -23,10 +23,14 @@ import DiaryLists from "../components/DiaryLists";
             1
         ).getTime();
 
+        // 23시 59분 59초로 날짜를 잡아야 31일까지 나온다.
         const lastDay = new Date(
             curDate.getFullYear(),
             curDate.getMonth() + 1,
-            0
+            0,
+            23,
+            59,
+            59
         ).getTime();
 
        setData(
@@ -36,7 +40,7 @@ import DiaryLists from "../components/DiaryLists";
     },[diaryList, curDate]);
 
     useEffect( ()=> {
-        console.log(data);
+        //console.log(data);
     }, [data])
 
     const increaseMonth = () => {
