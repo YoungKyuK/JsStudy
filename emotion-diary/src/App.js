@@ -1,4 +1,4 @@
-import React,{ useReducer, useRef } from 'react';
+import React,{ useEffect, useReducer, useRef } from 'react';
 
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -83,6 +83,11 @@ const dummyDate = [
 ]
 
 function App() {
+
+
+  useEffect( ()=> {
+   
+  },[])
   
   // 배열의 비구조화할당에 0번째 인자는 항상 state이다. 그래서 기존 state 이름인 data를 넣고
   // 두번째는 반드시 dispatch로 넣어줘야한다.
