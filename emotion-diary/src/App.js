@@ -43,50 +43,23 @@ const reducer = ( state, action ) => {
     default :
       return state;
  }
+
+ localStorage.setItem('diary', JSON.stringify(newState));
  return newState;
 };
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
-const dummyDate = [
-  {
-    id: 1,
-    emotion: 1,
-    content: "오늘의 일기 1번",
-    date: 1702946599997,
-  },
-  {
-    id: 2,
-    emotion: 2,
-    content: "오늘의 일기 2번",
-    date: 1702946599998,
-  },
-  {
-    id: 3,
-    emotion: 3,
-    content: "오늘의 일기 3번",
-    date: 1702946599999,
-  },
-  {
-    id: 4,
-    emotion: 4,
-    content: "오늘의 일기 4번",
-    date: 1702946600000,
-  },
-  {
-    id: 5,
-    emotion: 5,
-    content: "오늘의 일기 5번",
-    date: 1702946600001,
-  }
-]
+
 
 function App() {
 
-
   useEffect( ()=> {
-   
+     const item1 = localStorage.getItem('item1');
+     const item2 = localStorage.getItem('item2');
+     const item3 = JSON.parse(localStorage.getItem('item3'));
+     console.log( {item1, item2, item3});
   },[])
   
   // 배열의 비구조화할당에 0번째 인자는 항상 state이다. 그래서 기존 state 이름인 data를 넣고
@@ -94,11 +67,25 @@ function App() {
   // useReducer(reducer, []) 두개의 인자를 꼭 전달해야하는데,
   // 첫번째 인자는 reducer(상태변화 처리함수), 두번째 인자는 state의 초기값
   // 상태변화처리함수인 reducer는 컴포넌트 밖으로 분리하여 직접 만들어줘야한다. (그래서 ,[]를 밖으로 분리)
-  const [data, dispatch] = useReducer(reducer, dummyDate);
+  const [data, dispatch] = useReducer(reducer, []);
+
+  // App 컴포넌트가 마운트 되었을 때
+  useEffect( ()=> {
+    const localData = localStorage.getItem('diary');
+    if(localData){
+      const diaryList = JSON.parse(localData).sort((a,b)=>parseInt(b.id) - parseInt(a.id));
+      dataId.current = parseInt(diaryList[0].id) + 1
+
+      console.log(diaryList);
+      console.log(dataId);
+
+      dispatch({type: "INIT", data:diaryList});
+    }
+  },[])
 
   // 일기 id로 사용
-  // dummy data의 id가 1~5까지 있으므로 6번부터 시작해야 한다.
-  const dataId = useRef(6);
+  // dummy data의 id가 1~5까지 있으므로 6번부터 시작해야 한다. 삭제했으므로 다시 0
+  const dataId = useRef(0);
   // CREATE
   const onCreate = ( date, content, emotion )=> {
     dispatch({ type:"CREATE", data:{
