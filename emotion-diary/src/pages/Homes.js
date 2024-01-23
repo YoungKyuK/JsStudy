@@ -14,8 +14,6 @@ const Homes = () => {
     const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
 
-
-
     useEffect(() => {
         if (diaryList.length >= 1) {
 
