@@ -13,6 +13,8 @@ const Homes = () => {
     // getMonth는 0월부터 시작 그래서 현재월은 +1 해줘야 함.
     const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
+    console.log(headText);
+
 
     useEffect(() => {
         if (diaryList.length >= 1) {
