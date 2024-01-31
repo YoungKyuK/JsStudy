@@ -3,8 +3,6 @@ import React,{ useEffect, useReducer, useRef } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-
-
 import Homes from './pages/Homes';
 import New from './pages/New';
 import Edit from './pages/Edit';
