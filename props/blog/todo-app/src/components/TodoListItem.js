@@ -7,9 +7,11 @@ import {
 import cn from 'classnames';
 import './TodoListItem.scss';
 
+const onclickHandler = () => alert('삭제 되었습니다.');
+
 // todo값에 따라 UI를 보여 줄 수 있도록 컴포넌트 수정
-const TodoListItem = ({ todo }) => {
-  const { text, checked } = todo;
+const TodoListItem = ({ todo, onRemove }) => {
+  const { id, text, checked } = todo;
 
   return (
     <div className="TodoListItem">
@@ -17,7 +19,13 @@ const TodoListItem = ({ todo }) => {
         {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
         <div className="text">{text}</div>
       </div>
-      <div className="remove">
+      <div
+        className="remove"
+        onClick={() => {
+          onRemove(id);
+          onclickHandler();
+        }}
+      >
         <MdRemoveCircleOutline />
       </div>
     </div>

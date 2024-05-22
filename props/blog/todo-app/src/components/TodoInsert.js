@@ -15,7 +15,8 @@ const TodoInsert = ({ onInsert }) => {
       setValue(''); //value 값 초기화
 
       // submit 이벤트는 브라우저에서 새로고침을 발생시킵니다.
-      // 이를 방지하기 위해 이 함수를 호출합니다.
+      // 이를 방지하기 위해 이 함수(preventDefault)를 호출합니다.
+      // 또 a 태그를 눌렀을때도 href링크로 이동하지 않게 할 경우 사용한다.
       e.preventDefault();
     },
     [onInsert, value],
