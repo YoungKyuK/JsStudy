@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useReducer, useCallback, useRef } from 'react';
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
@@ -15,8 +15,31 @@ function createBulkTodos() {
   return array;
 }
 
+// useReducer action, dispatch 사용
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case 'INSERT': // 새로 추가
+      // { type: 'INSERT', todo: { id: 1, text: 'todo', checked: false } }
+      return todos.concat(action.todo);
+    case 'REMOVE': // 제거
+      // { type: 'REMOVE', id: 1 }
+      return todos.filter((todo) => todo.id !== action.id);
+    case 'TOGGLE': // 토글
+      // { type: 'REMOVE', id: 1 }
+      return todos.map((todo) =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo,
+      );
+    default:
+      return todos;
+  }
+}
+// useReducer를 사용할 때는 원래 두 번째 파라미터에 초기 상태를 넣어 주어야 합니다. 지금은 그 대신 두 번째 파라미터에 undefined를 넣고,
+// 세 번째 파라미터에 초기 상태를 만들어 주는 함수인 createBulkTodos를 넣어 주었는데요.
+//  이렇게 하면 컴포넌트가 맨 처음 렌더링될 때만 createBulkTodos 함수가 호출됩니다.
+// useReducer는 상태를 업데이트 하는 로직을 모아서 컴포넌트 바깥에 둘 수 있다는 장점이 있다.
+
 const App = () => {
-  const [todos, setTodos] = useState(createBulkTodos);
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
 
   // 컴포넌트의 리렌더링 발생
   // 1. 자신이 전달받은 props가 변경될 때
@@ -38,21 +61,24 @@ const App = () => {
       text,
       checked: false,
     };
-    setTodos((todos) => todos.concat(todo));
+
+    dispatch({ type: 'INSERT', todo });
+    // setTodos((todos) => todos.concat(todo)); useState로 함수형 업데이트할 때 사용
     nextId.current += 1; // nextId 1씩 더하기
-    console.log(text);
   }, []);
 
   const onRemove = useCallback((id) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    dispatch({ type: 'REMOVE', id });
+    // setTodos((todos) => todos.filter((todo) => todo.id !== id));
   }, []);
 
   const onToggle = useCallback((id) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-      ),
-    );
+    dispatch({ type: 'TOGGLE', id });
+    // setTodos((todos) =>
+    //   todos.map((todo) =>
+    //     todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+    //   ),
+    // );
   }, []);
 
   return (
