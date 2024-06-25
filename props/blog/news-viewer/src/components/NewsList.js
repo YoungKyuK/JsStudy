@@ -16,7 +16,7 @@ const NewsListBlock = styled.div`
   }
 `;
 
-const NewsList = () => {
+const NewsList = ({ category }) => {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,9 +25,10 @@ const NewsList = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          "https://newsapi.org/v2/top-headlines?country=kr&apiKey=889aad8cddd143a58a936a62fe682292"
-        );
+        const query = category === "all" ? "" : `&category=${category}`;
+        const apiKey = "889aad8cddd143a58a936a62fe682292"; // 가능한 경우, 환경 변수로 설정하는 것이 좋습니다.
+        const url = `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=${apiKey}`;
+        const response = await axios.get(url);
         setArticles(response.data.articles);
       } catch (e) {
         console.log(e);
@@ -35,7 +36,7 @@ const NewsList = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [category]);
 
   // 대기 중일 때
   if (loading) {
