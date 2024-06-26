@@ -1,10 +1,13 @@
 import React from "react";
 import Categories from "../components/Categories";
 import NewsList from "../components/NewsList";
+import { useParams } from "react-router-dom";
 
 const NewsPage = ({ match }) => {
-  // 카테고리가 선택되지 않았으면 기본값 all로 사용
-  const category = match.params.category || "all";
+  // 카테고리가 선택되지 않았을 경우 기본값 'all'
+  // match undefined 오류로  useParams hook 사용
+  const parms = useParams();
+  const category = parms.category || "all";
 
   return (
     <>
